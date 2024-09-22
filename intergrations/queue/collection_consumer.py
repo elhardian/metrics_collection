@@ -3,12 +3,14 @@ from helpers.logger import Logger
 from pydantic import BaseModel, ValidationError
 from intergrations.database import SessionManager
 from models.metric import Metric
+from typing import Optional
 
 collection_queue = asyncio.Queue()
 
 class MetricData(BaseModel):
     execution_time: float
     function_name: str
+    is_error: Optional[bool] = False
 
 class CollectionConsumer():
     def __init__(self, collection_queue: asyncio.Queue) -> None:
@@ -33,7 +35,8 @@ class CollectionConsumer():
         with SessionManager() as db_session:
             metric = Metric(
                 function_name = metric_data.function_name,
-                execution_time = metric_data.execution_time
+                execution_time = metric_data.execution_time,
+                is_error = metric_data.is_error
             )
             db_session.add(metric)
             db_session.commit()
