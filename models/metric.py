@@ -1,10 +1,8 @@
-from uuid import UUID
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy import Column, String
+from sqlalchemy import Column, String, BigInteger
+from models.base import BaseDatabaseModel
 
-Base = declarative_base()
+class Metric(BaseDatabaseModel):
+    __tablename__ = 'metric'
 
-class Metric(Base):
-    __tablename__ = 'users'
-    id: UUID
-    function: Column()
+    function_name = Column(String, default="")
+    execution_time = Column(BigInteger, default="")
