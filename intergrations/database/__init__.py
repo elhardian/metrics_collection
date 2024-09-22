@@ -1,10 +1,9 @@
 from contextlib import contextmanager
-from helpers.logger import Logger
 import os
 
 from sqlalchemy import create_engine 
-from exception import InvalidDatabaseConfiguration
-from sqlalchemy.orm import Session, sessionmaker
+from sqlalchemy.orm import sessionmaker
+from .exception import InvalidDatabaseConfiguration
 
 if DB_DRIVER := os.getenv("DB_DRIVER", "sqlite"):
     CONNECTION_STRING = "sqlite:///sample.db"
@@ -28,7 +27,6 @@ engine = create_engine(
         pool_recycle=1800,       # Recycle connections every 30 minutes
         pool_pre_ping=True       # Enable pre-ping to check the connection before use
     )
-
 DBSession = sessionmaker(autocommit=False, autoflush=True, bind=engine, expire_on_commit=False)
 
 @contextmanager
