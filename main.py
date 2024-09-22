@@ -4,6 +4,7 @@ from helpers.logger import Logger
 from intergrations.queue.collection_consumer import CollectionConsumer, collection_queue
 from intergrations.database import engine
 from usecases.sample_function import sample_loop, sleep_function
+from usecases.metrics_collection import MetricsCollectionUseCase
 from models.base import Base
 
 logger = Logger(__name__)
@@ -19,23 +20,15 @@ tasks = [
     },
     {
         "to_do": sleep_function,
-        "kwargs": {"sleep_time": 30}
-    },
-    {
-        "to_do": sleep_function,
-        "kwargs": {"sleep_time": 20}
+        "kwargs": {"sleep_time": 20, "raise_err": True}
     },
     {
         "to_do": sample_loop,
-        "kwargs": {"length": 1000}
+        "kwargs": {"length": 1000, "raise_err": True}
     },
     {
         "to_do": sample_loop,
         "kwargs": {"length": 5000}
-    },
-    {
-        "to_do": sample_loop,
-        "kwargs": {"length": 10000}
     },
 ]
 
